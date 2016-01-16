@@ -54,6 +54,8 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support.test.espresso:espresso-idling-resource:${espressoVersion}"
+    compile 'com.github.deano2390:MaterialShowcaseView:1.0.5@aar'
+
     testCompile "junit:junit:${junitVersion}"
 
     androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}") {

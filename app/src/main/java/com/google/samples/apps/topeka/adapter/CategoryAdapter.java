@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,11 @@ import com.google.samples.apps.topeka.model.Category;
 import com.google.samples.apps.topeka.model.Theme;
 import com.google.samples.apps.topeka.persistence.TopekaDatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
@@ -49,6 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private final LayoutInflater mLayoutInflater;
     private final Activity mActivity;
     private List<Category> mCategories;
+    private List<View> mRowView = new ArrayList<>();
 
     private OnItemClickListener mOnItemClickListener;
 
@@ -85,6 +91,35 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 mOnItemClickListener.onClick(v, position);
             }
         });
+        Log.d("FAQ", "add row view: " + position + ": " + holder.itemView);
+
+        mRowView.add(position, holder.itemView);
+
+        if (position == 5) {
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(500); // half second between each showcase view
+
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(mActivity); //SHOWCASE_ID
+            sequence.setConfig(config);
+            View v = getRowView(1);
+            if (v == null) {
+                Log.d("FAQ", "v view not found: " + v);
+            } else {
+                Log.d("FAQ", "View 0 found: " + v);
+                View category1 = v;
+
+                if (category1 != null) {
+                    sequence.addSequenceItem(category1,
+                            "Select General Knowledge to start with.", "OK");
+
+                    sequence.start();
+                } else {
+                    Log.d("FAQ", "category view not found: " + category1);
+                }
+
+            }
+        }
+
     }
 
     @Override
@@ -99,6 +134,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public Category getItem(int position) {
         return mCategories.get(position);
+    }
+
+    public View getRowView(int position) {
+        if (mRowView.size() == 0) {
+            return null;
+        }
+
+        return mRowView.get(position);
     }
 
     /**
