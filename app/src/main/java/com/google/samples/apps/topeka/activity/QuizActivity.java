@@ -59,6 +59,9 @@ import com.google.samples.apps.topeka.widget.TextSharedElementCallback;
 
 import java.util.List;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 import static com.google.samples.apps.topeka.adapter.CategoryAdapter.DRAWABLE;
 
 public class QuizActivity extends AppCompatActivity {
@@ -419,6 +422,18 @@ public class QuizActivity extends AppCompatActivity {
                 .setStartDelay(300)
                 .start();
         mQuizFab = (FloatingActionButton) findViewById(R.id.fab_quiz);
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this); //SHOWCASE_ID
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(mQuizFab,
+                "Click Play to start the quiz.", "OK");
+
+        sequence.start();
+
         mQuizFab.setImageResource(R.drawable.ic_play);
         if (mSavedStateIsPlaying) {
             mQuizFab.hide();
